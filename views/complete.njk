@@ -1,0 +1,9 @@
+{% extends "page.njk" %}
+{% from "panel/macro.njk" import govukPanel %}
+
+{% block pageContent %}
+  {{ govukPanel({
+    titleText: "Application complete",
+    html: "Your reference number<br><strong>HDJ2123F</strong>"
+  }) }}
+{% endblock %}

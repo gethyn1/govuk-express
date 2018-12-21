@@ -1,5 +1,6 @@
 {% extends "template.njk" %}
-{% from "panel/macro.njk" import govukPanel %}
+{% from "input/macro.njk" import govukInput %}
+{% from "button/macro.njk" import govukButton %}
 
 {% block head %}
   <!--[if !IE 8]><!-->
@@ -21,10 +22,8 @@
 {% block content %}
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      {{ govukPanel({
-        titleText: "Application complete",
-        html: "Your reference number<br><strong>HDJ2123F</strong>"
-      }) }}
+      <h1 class="govuk-heading-xl">{{ title }}</h1>
+      {% block pageContent %}{% endblock %}
     </div>
   </div>
 {% endblock %}

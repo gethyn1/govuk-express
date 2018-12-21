@@ -1,0 +1,27 @@
+{% extends "page.njk" %}
+{% from "table/macro.njk" import govukTable %}
+
+{% block pageContent %}
+  {{ govukTable({
+    caption: "Confirm details",
+    firstCellIsHeader: true,
+    head: [
+      {
+        text: "Field"
+      },
+      {
+        text: "Value"
+      }
+    ],
+    rows: [
+      [
+        {
+          text: "Name"
+        },
+        {
+          text: applicant.name
+        }
+      ]
+    ]
+  }) }}
+{% endblock %}
