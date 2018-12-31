@@ -1,9 +1,9 @@
 const express = require('express')
 const {
-  initFormWizardSession,
-  validateRequestedStep,
+  initialiseSession,
+  validateStep,
   validateFormData,
-  saveDataToSession,
+  saveFormData,
   renderView,
 } = require('./middleware')
 
@@ -12,8 +12,8 @@ const createRoute = (wizard, steps, fields) => (step) =>
   wizard
     .route(step.path)
     .get(
-      initFormWizardSession(steps),
-      validateRequestedStep(steps),
+      initialiseSession(steps),
+      validateStep(steps),
       // TO DO: Handle step pre GET behaviour
       // TO DO: clear any errors (might not be necessary if locals lifecycle is per request)
       renderView(steps, fields)
@@ -23,7 +23,7 @@ const createRoute = (wizard, steps, fields) => (step) =>
       validateFormData(steps, fields),
       // TO DO: Handle step POST behaviour
       // TO DO: Set page errors
-      saveDataToSession(steps),
+      saveFormData(steps),
       renderView(steps, fields)
     )
 

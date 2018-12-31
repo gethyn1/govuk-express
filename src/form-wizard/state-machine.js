@@ -2,7 +2,7 @@
 const stateMachine = {
   transitions: {
     IN_PROGRESS: {
-      validateRequestedStep: (activePath, requestedPath) => activePath === requestedPath,
+      validateStep: (activePath, requestedPath) => activePath === requestedPath,
     },
     REVIEWING: {
     },
@@ -20,4 +20,6 @@ const stateMachine = {
   },
 }
 
-module.exports = stateMachine
+module.exports = {
+  stateMachine,
+}
