@@ -3,9 +3,9 @@ const steps = [
     path: '/name',
     next: '/email',
     view: 'form',
-    fields: ['name'],
+    fields: ['firstName', 'secondName'],
     template: {
-      title: 'Name',
+      title: 'Personal details',
     },
   },
   {
@@ -13,16 +13,25 @@ const steps = [
     view: 'form',
     fields: ['email'],
     template: {
-      title: 'Email address',
+      title: 'Contact details',
     },
   },
 ]
 
 const fields = {
-  name: {
+  firstName: {
+    id: 'firstName',
+    label: 'First name',
+    validation: 'required',
+  },
+  secondName: {
+    id: 'secondName',
+    label: 'Second name',
     validation: 'required',
   },
   email: {
+    id: 'email',
+    label: 'Email address',
     validation: 'required',
   },
 }

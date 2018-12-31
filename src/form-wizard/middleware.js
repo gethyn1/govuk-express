@@ -64,9 +64,10 @@ const saveDataToSession = (steps) => (req, res, next) => {
   return next()
 }
 
-const renderView = (steps) => (req, res) => {
+const renderView = (steps, fields) => (req, res) => {
   const step = getStepByPath(req.url)(steps)
   const nextStep = getStepByPath(step.next)(steps)
+  const fieldsData = step.fields.map(field => fields[field])
 
   if (req.method === 'POST') {
     // If no errors, update active path and redirect to next step
@@ -75,7 +76,8 @@ const renderView = (steps) => (req, res) => {
         ...step.template,
         form: {
           action: step.path,
-        }
+        },
+        fields: fieldsData,
       })
     }
 
@@ -83,13 +85,13 @@ const renderView = (steps) => (req, res) => {
     return res.redirect(nextStep.path)
   }
 
-  res.locals.formAction = step.path
   // TO DO: translate template variables
   return res.render(step.view, {
     ...step.template,
     form: {
       action: step.path,
-    }
+    },
+    fields: fieldsData,
   })
 }
 

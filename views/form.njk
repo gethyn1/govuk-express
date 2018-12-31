@@ -4,14 +4,16 @@
 
 {% block pageContent %}
   <form method="post" action="{{ form.action }}">
-    {{ govukInput({
-      label: {
-        text: "Full name"
-      },
-      id: "name",
-      name: "name",
-      errorMessage: errors.name
-    }) }}
+    {% for field in fields %}
+      {{ govukInput({
+        label: {
+          text: field.label
+        },
+        id: field.id,
+        name: field.id,
+        errorMessage: errors[field.id]
+      }) }}
+    {% endfor %}
 
     {{ govukButton({
       text: "Save and continue"

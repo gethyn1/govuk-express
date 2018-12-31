@@ -16,7 +16,7 @@ const createRoute = (wizard, steps, fields) => (step) =>
       validateRequestedStep(steps),
       // TO DO: Handle step pre GET behaviour
       // TO DO: clear any errors (might not be necessary if locals lifecycle is per request)
-      renderView(steps)
+      renderView(steps, fields)
     )
     .post(
       // TO DO: Validate form input
@@ -24,7 +24,7 @@ const createRoute = (wizard, steps, fields) => (step) =>
       // TO DO: Handle step POST behaviour
       // TO DO: Set page errors
       saveDataToSession(steps),
-      renderView(steps)
+      renderView(steps, fields)
     )
 
 const formWizard = (app, steps, fields) => {
