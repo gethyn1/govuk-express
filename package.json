@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon .",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "tape **/*.test.js",
     "sass:compile": "node-sass --include-path sass ./assets/all.scss ./assets/all.css"
   },
   "author": "",
@@ -20,10 +20,14 @@
     "govuk-frontend": "^2.4.1",
     "i18n": "^0.8.3",
     "nunjucks": "^3.1.6",
+    "ramda": "^0.26.1",
     "redis": "^2.8.0"
   },
   "devDependencies": {
+    "eslint": "^5.11.1",
+    "eslint-config-standard": "^12.0.0",
     "node-sass": "^4.11.0",
-    "nodemon": "^1.18.9"
+    "nodemon": "^1.18.9",
+    "tape": "^4.9.1"
   }
 }

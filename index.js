@@ -1,3 +1,5 @@
+// ---> NEXT THING TO DO: https://github.com/expressjs/csurf
+
 require('dotenv').config()
 const path = require('path')
 const express = require('express')
@@ -8,6 +10,21 @@ const session = require('express-session')
 const RedisStore = require('connect-redis')(session)
 const redis = require('redis')
 const client = redis.createClient()
+const { formWizard } = require('./form-wizard/form-wizard')
+
+const steps = [
+  {
+    path: '/name',
+    next: '/email',
+    view: 'index',
+    fields: ['name'],
+  },
+  {
+    path: '/email',
+    view: 'index',
+    fields: ['email'],
+  },
+]
 
 // Consider https://github.com/i18next/i18next instead
 // https://github.com/i18next/i18next-express-middleware
@@ -56,6 +73,9 @@ nunjucks.configure([
 })
 
 app.set('view engine', 'njk')
+
+// Form wizard
+formWizard(app, steps)
 
 app.get('/', (req, res) => {
   res.render('index', {

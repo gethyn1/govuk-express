@@ -3,7 +3,7 @@
 {% from "button/macro.njk" import govukButton %}
 
 {% block pageContent %}
-  <form method="post" action="/">
+  <form method="post" action="{{ formAction }}">
     {{ govukInput({
       label: {
         text: "Full name"
