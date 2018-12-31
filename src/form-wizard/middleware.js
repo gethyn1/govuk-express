@@ -1,5 +1,6 @@
-const { find, propEq } = require('ramda')
+const { find, propEq, isEmpty } = require('ramda')
 const stateMachine = require('./state-machine')
+const { validations } = require('./validations')
 
 const getStepByPath = path => find(propEq('path', path))
 
@@ -29,6 +30,28 @@ const validateRequestedStep = (steps) => (req, res, next) => {
   return next()
 }
 
+const validateFormData = (steps, fields) => (req, res, next) => {
+  const step = getStepByPath(req.url)(steps)
+  const errors = {}
+
+  step.fields.forEach(field => {
+    const validationFn = validations[fields[field].validation]
+    const validationMessage = validationFn(req.body[field])
+
+    if (typeof validationMessage === 'string') {
+      errors[field] = {
+        text: validationMessage
+      }
+    }
+  })
+
+  if (!isEmpty(errors)) {
+    res.locals.errors = errors
+  }
+
+  return next()
+}
+
 const saveDataToSession = (steps) => (req, res, next) => {
   const step = getStepByPath(req.url)(steps)
 
@@ -47,17 +70,33 @@ const renderView = (steps) => (req, res) => {
 
   if (req.method === 'POST') {
     // If no errors, update active path and redirect to next step
+    if (res.locals.errors) {
+      return res.render(step.view, {
+        ...step.template,
+        form: {
+          action: step.path,
+        }
+      })
+    }
+
     req.session.form.activePath = nextStep.path
     return res.redirect(nextStep.path)
   }
 
   res.locals.formAction = step.path
-  return res.render(step.view, { title: 'title' })
+  // TO DO: translate template variables
+  return res.render(step.view, {
+    ...step.template,
+    form: {
+      action: step.path,
+    }
+  })
 }
 
 module.exports = {
   initFormWizardSession,
   validateRequestedStep,
+  validateFormData,
   saveDataToSession,
   renderView,
 }

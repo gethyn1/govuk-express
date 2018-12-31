@@ -1,0 +1,20 @@
+{% extends "page.njk" %}
+{% from "input/macro.njk" import govukInput %}
+{% from "button/macro.njk" import govukButton %}
+
+{% block pageContent %}
+  <form method="post" action="{{ form.action }}">
+    {{ govukInput({
+      label: {
+        text: "Full name"
+      },
+      id: "name",
+      name: "name",
+      errorMessage: errors.name
+    }) }}
+
+    {{ govukButton({
+      text: "Save and continue"
+    }) }}
+  </form>
+{% endblock %}

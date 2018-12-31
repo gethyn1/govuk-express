@@ -4,7 +4,7 @@
   "description": "Example GOV.UK app",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon .",
+    "start": "nodemon ./src",
     "test": "tape **/*.test.js",
     "sass:compile": "node-sass --include-path sass ./assets/all.scss ./assets/all.css"
   },

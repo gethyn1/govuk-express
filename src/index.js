@@ -11,20 +11,8 @@ const RedisStore = require('connect-redis')(session)
 const redis = require('redis')
 const client = redis.createClient()
 const { formWizard } = require('./form-wizard/form-wizard')
+const { steps, fields } = require('./form')
 
-const steps = [
-  {
-    path: '/name',
-    next: '/email',
-    view: 'index',
-    fields: ['name'],
-  },
-  {
-    path: '/email',
-    view: 'index',
-    fields: ['email'],
-  },
-]
 
 // Consider https://github.com/i18next/i18next instead
 // https://github.com/i18next/i18next-express-middleware
@@ -46,7 +34,7 @@ app.use(session({
 i18n.configure({
   locales: ['en', 'es'],
   cookie: 'locale', // Change browser cookie to change language (e.g. locale=es)
-  directory: __dirname + '/locales',
+  directory: path.join(__dirname, '../locales'),
   defaultLocale: 'en',
   queryParameter: 'lang', // Add ?lang=es to URL to change language
   objectNotation: true,
@@ -59,8 +47,8 @@ app.use(bodyParser.json())
 // app.use(cookieParser())
 app.use(i18n.init)
 
-app.use('/assets', express.static(path.join(__dirname, '/node_modules/govuk-frontend/assets')))
-app.use('/assets', express.static(path.join(__dirname, '/assets')))
+app.use('/assets', express.static(path.join(__dirname, '../node_modules/govuk-frontend/assets')))
+app.use('/assets', express.static(path.join(__dirname, '../assets')))
 
 nunjucks.configure([
   'views',
@@ -75,7 +63,7 @@ nunjucks.configure([
 app.set('view engine', 'njk')
 
 // Form wizard
-formWizard(app, steps)
+formWizard(app, steps, fields)
 
 app.get('/', (req, res) => {
   res.render('index', {
