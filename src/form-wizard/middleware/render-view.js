@@ -1,3 +1,4 @@
+const { isEmpty } = require('ramda')
 const { getStepByPath } = require('./get-step-by-path')
 
 const render = (res, step, data) => {
@@ -16,7 +17,7 @@ const renderView = (steps, fields) => (req, res) => {
   const fieldsData = step.fields.map(field => fields[field])
 
   if (req.method === 'POST') {
-    if (res.locals.errors) {
+    if (!isEmpty(res.locals.errors)) {
       return render(res, step, fieldsData)
     }
 

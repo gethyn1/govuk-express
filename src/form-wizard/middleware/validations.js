@@ -1,8 +1,5 @@
 const validations = {
-  required: (input) => {
-    const validated = input.trim() !== ''
-    return validated ? false : 'Value is required'
-  },
+  required: (input) => input.trim() === '' ? 'Value is required' : false,
 }
 
 module.exports = {

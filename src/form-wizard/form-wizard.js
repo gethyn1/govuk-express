@@ -8,12 +8,12 @@ const {
 } = require('./middleware')
 
 // TO DO: validate props for each form step
-const createRoute = (wizard, steps, fields) => (step) =>
-  wizard
+const createRoute = (router, steps, fields) => (step) =>
+  router
     .route(step.path)
     .get(
       initialiseSession(steps),
-      validateStep(steps),
+      // validateStep(steps),
       // TO DO: Handle step pre GET behaviour
       // TO DO: clear any errors (might not be necessary if locals lifecycle is per request)
       renderView(steps, fields)
