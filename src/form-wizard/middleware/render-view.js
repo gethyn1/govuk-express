@@ -1,9 +1,10 @@
 const { isEmpty, path } = require('ramda')
 const { getStepByPath } = require('./get-step-by-path')
 
-const render = (res, step, data) => {
+const render = (req, res, step, data) => {
   return res.render(step.view, {
     ...step.template,
+    csrfToken: req.csrfToken(),
     form: {
       action: step.path,
     },
@@ -18,7 +19,7 @@ const renderView = (steps, fields) => (req, res) => {
 
   if (req.method === 'POST') {
     if (!isEmpty(res.locals.errors)) {
-      return render(res, step, fieldsData)
+      return render(req, res, step, fieldsData)
     }
 
     req.session.form.activePath = path(['path'], nextStep)
@@ -31,7 +32,7 @@ const renderView = (steps, fields) => (req, res) => {
   }
 
   // TO DO: translate template variables
-  return render(res, step, fieldsData)
+  return render(req, res, step, fieldsData)
 }
 
 module.exports = {

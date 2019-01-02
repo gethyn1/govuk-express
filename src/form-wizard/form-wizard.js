@@ -1,4 +1,5 @@
 const express = require('express')
+const csrf = require('csurf')
 const {
   initialiseSession,
   validateStep,
@@ -6,6 +7,10 @@ const {
   saveFormData,
   renderView,
 } = require('./middleware')
+
+// CSRF
+// TO DO: understand csurf cookie settings
+const csrfProtection = csrf()
 
 // const GETpipeline = [validateSession, validateStep, getValues, renderView]
 // const POSTpipeline = [validateSession, processInput, validateInput, saveValues, renderView]
@@ -15,6 +20,7 @@ const createRoute = (router, steps, fields) => (step) =>
   router
     .route(step.path)
     .get(
+      csrfProtection,
       initialiseSession(steps),
       // validateStep(steps),
       // TO DO: Handle step pre GET behaviour
@@ -22,6 +28,7 @@ const createRoute = (router, steps, fields) => (step) =>
       renderView(steps, fields)
     )
     .post(
+      csrfProtection,
       // TO DO: format user input e.g. ['trim', 'singlespaces', 'hyphens']
       validateFormData(steps, fields),
       // TO DO: Handle step POST behaviour
