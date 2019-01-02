@@ -1,4 +1,6 @@
 // ---> NEXT THING TO DO: https://github.com/expressjs/csurf
+// TO DO: Use Helmet for app security
+// TO DO: Consider how to implement forking
 
 require('dotenv').config()
 const path = require('path')
@@ -22,6 +24,8 @@ const app = express()
 const PORT = 5000
 
 // Session
+// TO DO: throw error if session does not exist
+// https://www.npmjs.com/package/connect-redis
 app.use(session({
   store: new RedisStore(),
   secret: process.env.SESSION_SECRET,
@@ -74,7 +78,9 @@ app.get('/confirm', (req, res) => {
   res.render('confirm', {
     title: res.__('title'),
     applicant: {
-      firstName: req.session.firstName,
+      firstName: req.session.form.firstName,
+      secondName: req.session.form.secondName,
+      email: req.session.form.email,
     }
   })
 })
@@ -89,5 +95,5 @@ client.on('connect', function() {
 });
 
 client.on('error', function (err) {
-  console.log('Something went wrong ' + err);
+  console.log('Something went wrong:', err);
 })

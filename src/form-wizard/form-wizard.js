@@ -7,6 +7,9 @@ const {
   renderView,
 } = require('./middleware')
 
+// const GETpipeline = [validateSession, validateStep, getValues, renderView]
+// const POSTpipeline = [validateSession, processInput, validateInput, saveValues, renderView]
+
 // TO DO: validate props for each form step
 const createRoute = (router, steps, fields) => (step) =>
   router
@@ -19,7 +22,7 @@ const createRoute = (router, steps, fields) => (step) =>
       renderView(steps, fields)
     )
     .post(
-      // TO DO: Validate form input
+      // TO DO: format user input e.g. ['trim', 'singlespaces', 'hyphens']
       validateFormData(steps, fields),
       // TO DO: Handle step POST behaviour
       // TO DO: Set page errors

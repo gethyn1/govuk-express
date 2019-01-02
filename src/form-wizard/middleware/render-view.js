@@ -1,4 +1,4 @@
-const { isEmpty } = require('ramda')
+const { isEmpty, path } = require('ramda')
 const { getStepByPath } = require('./get-step-by-path')
 
 const render = (res, step, data) => {
@@ -21,7 +21,12 @@ const renderView = (steps, fields) => (req, res) => {
       return render(res, step, fieldsData)
     }
 
-    req.session.form.activePath = nextStep.path
+    req.session.form.activePath = path(['path'], nextStep)
+
+    if (typeof nextStep === 'undefined') {
+      return res.redirect('/confirm')
+    }
+
     return res.redirect(nextStep.path)
   }
 
